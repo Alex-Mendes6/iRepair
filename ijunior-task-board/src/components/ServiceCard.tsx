@@ -1,15 +1,15 @@
 interface ServiceCardProps {
-    titulo: string;
-    categoria: string;
+    nomeCliente: string;
+    modeloAparelho: string;
+    defeito: string;
 }
 
-export function ServiceCard({ titulo, categoria }: ServiceCardProps) {
+export function ServiceCard({ nomeCliente, modeloAparelho, defeito }: ServiceCardProps) {
     return (
         <div className="border p-4 rounded-lg shadow-md">
-            <span className="text-xs bg-blue-100 text-blue-800 px-2  py-1 rouunded">
-                {categoria}
-            </span>
-            <h3 className="font-bold text-lg mt-2">{titulo}</h3>
+            <h2 className="font-bold text-lg mt-2">{ modeloAparelho} </h2>
+            <p>{ defeito }</p>
+            <h3 className="font-bold text-lg mt-2">{ nomeCliente }</h3>
         </div>
     )
 }

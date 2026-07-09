@@ -10,9 +10,7 @@ function App() {
       </div>
       <main>
         <div className='gap-4 flex'>
-          <ServiceCard titulo='Aprender Vite' categoria='Estudos' />
-          <ServiceCard titulo='Fazer cafe' categoria='Lazer' />
-          <ServiceCard titulo='Almocar' categoria='Lazer' />
+            <ServiceCard nomeCliente='Alex' modeloAparelho='TV' defeito='Tela Preta'/>
         </div>
       </main>
     </body>
