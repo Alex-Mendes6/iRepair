@@ -29,15 +29,34 @@ export function NewServiceForm({ onAddService }: NewServiceFormProps) {
     }
 
     return (
-        <div>
-            <form onSubmit={handleSubmit} className="bg-white">
-                <input type="text" required name="nomeCliente" placeholder="Nome do Cliente" 
-                value={form.nomeCliente} onChange={(e) => setForm({...form, nomeCliente: e.target.value})}/>
-                <input type="text" required name="modeloAparelho" placeholder="Modelo do Aparelho" 
-                value={form.modeloAparelho} onChange={(e) => setForm({...form, modeloAparelho: e.target.value})}/>
-                <input type="text" required name="defeito" placeholder="Defeito apresentado" 
-                value={form.defeito} onChange={(e) => setForm({...form, defeito: e.target.value})}/>
-                <input type="submit" value={`Salvar`}/>
+        <div className="flex justify-center">
+            <form onSubmit={handleSubmit} 
+            className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col gap-3 w-150">
+                <input type="text" 
+                    required name="nomeCliente" 
+                    placeholder="Nome do Cliente" 
+                    value={form.nomeCliente} 
+                    onChange={(e) => setForm({...form, nomeCliente: e.target.value})}
+                    className="bg-gray-900 p-2 border border-black rounded focus:outline-none"
+                />
+                <input type="text" 
+                    required name="modeloAparelho" 
+                    placeholder="Modelo do Aparelho" 
+                    value={form.modeloAparelho} 
+                    onChange={(e) => setForm({...form, modeloAparelho: e.target.value})}
+                    className="bg-gray-900 p-2 border border-black rounded focus:outline-none"
+                />
+                <input type="text" 
+                    required name="defeito" 
+                    placeholder="Defeito apresentado" 
+                    value={form.defeito} 
+                    onChange={(e) => setForm({...form, defeito: e.target.value})}
+                    className="bg-gray-900 p-2 border border-black rounded focus:outline-none"
+                />
+                <input type="submit" 
+                    value={`Salvar`}
+                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded cursor-pointer transition w-50 flex self-center"
+                />
             </form>
         </div>
     )
