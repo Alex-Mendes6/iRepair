@@ -5,11 +5,12 @@ interface NewServiceFormProps {
         nomeCliente: string;
         modeloAparelho: string;
         defeito: string;
+        status: boolean
     }) => void;
 }
 
 export function NewServiceForm({ onAddService }: NewServiceFormProps) {
-    const [form, setForm] = useState({ nomeCliente: '', modeloAparelho: '', defeito: '' });
+    const [form, setForm] = useState({ nomeCliente: '', modeloAparelho: '', defeito: '', });
 
     const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         // prevenindo que a pagina recarregue automaticamente apos clicar no botao
@@ -21,7 +22,7 @@ export function NewServiceForm({ onAddService }: NewServiceFormProps) {
         }
 
         // enviando os valores dos inputs do form para a componente pai (App.tsx)
-        onAddService(form);
+        onAddService({...form, status: false});
 
         // limpando os campos dos inputs
         setForm({ nomeCliente: '', modeloAparelho: '', defeito: ''})
