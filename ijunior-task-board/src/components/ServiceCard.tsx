@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 interface ServiceCardProps {
     nomeCliente: string;
     modeloAparelho: string;
