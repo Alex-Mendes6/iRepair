@@ -31,7 +31,8 @@ export function NewServiceForm({ onAddService }: NewServiceFormProps) {
     return (
         <div className="flex justify-center">
             <form onSubmit={handleSubmit} 
-            className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col gap-3 w-150">
+            className="bg-gray-800 p-4 rounded-lg shadow-md flex flex-col gap-3 w-150"
+            autoComplete="off">
                 <input type="text" 
                     required name="nomeCliente" 
                     placeholder="Nome do Cliente" 
