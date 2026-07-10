@@ -29,11 +29,11 @@
         <div>
           <Header />
         </div>
-        <main>
-          <div>
+        <main className='flex flex-col gap-6'>
+          <div className='mt-4'>
               <NewServiceForm onAddService={handleAddServicos}/>
           </div>
-          <div className='gap-4 flex'>
+          <div className='flex flex-wrap gap-4 p-2'>
               {servicos.map((servico, index) => (
                 <ServiceCard 
                 key={index}
