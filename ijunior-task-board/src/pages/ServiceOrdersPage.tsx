@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import type { ServiceOrder } from "../types"
-import { getAllServiceOrders, createServiceOrder, deleteServiceOrder } from "../services/serviceOrderService"
+import { getAllServiceOrders } from "../services/serviceOrderService"
 
 export const ServiceOrdersPage = () => {
     const [serviceOrders, setSertviceOrders] = useState<ServiceOrder[]>([]);
@@ -10,7 +10,7 @@ export const ServiceOrdersPage = () => {
     // buscando as ordens de servico na API
     useEffect(() => {
         async function fetchServiceOrders() {
-            try {;
+            try {
                 setSertviceOrders(await getAllServiceOrders());
             } catch (e) {
                 setError('Não foi possível carregar as Ordens de Servico ');
