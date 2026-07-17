@@ -70,7 +70,13 @@ export const ServiceOrdersPage = () => {
         setIsCreating(true);
 
         try {
-            const createdServiceOrder = await createServiceOrder(newServiceOrder);
+            const payload = {
+                clientId: newServiceOrder.client_id,
+                device: newServiceOrder.device,
+                issue: newServiceOrder.issue,
+                status: newServiceOrder.status,
+            };
+            const createdServiceOrder = await createServiceOrder(payload);
             setServiceOrders(prev => [...prev, createdServiceOrder]);
             setNewServiceOrder({
                 client_id: 0,
@@ -81,6 +87,7 @@ export const ServiceOrdersPage = () => {
             setRefreshKey(prev => prev + 1);
         } catch (error) {
             if (axios.isAxiosError(error)) {
+                console.log('Payload enviado para criar OS:', newServiceOrder);
                 setCreateError(error.response?.data?.message || 'Erro ao criar OS');
             } else {
                 setCreateError('Erro inesperado ao criar OS');

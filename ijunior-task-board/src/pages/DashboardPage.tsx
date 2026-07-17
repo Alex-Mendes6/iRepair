@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { getAllServiceOrders } from '../services/serviceOrderService';
+import { getAllServiceOrders, updateServiceOrder } from '../services/serviceOrderService';
 import { getAllClients } from '../services/clientService';
 import { ServiceCard } from '../components/ServiceCard';
-import type { ServiceOrder } from '../types';
+import type { ServiceOrder, ServiceOrderStatus } from '../types';
 import axios from 'axios';
 
 export const DashboardPage = () => {
@@ -10,6 +10,7 @@ export const DashboardPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [clientsMap, setClientsMap] = useState<Map<number, string>>(new Map());
+    const [updatingId, setUpdatingId] = useState<number | null>(null);
 
     // usado para buscar as OS
     useEffect(() => {
@@ -53,6 +54,33 @@ export const DashboardPage = () => {
         fetchData();
     }, []);
 
+    const handleStatusChange = async (id: number, newStatus: ServiceOrderStatus) => {
+        setUpdatingId(id);
+        try {
+            // Busca a OS atual
+            const order = orders.find(o => o.id === id);
+            if (!order) return;
+
+            // Monta o payload completo (ou parcial, conforme a API)
+            const payload = {
+            clientId: order.client_id,
+            device: order.device,
+            issue: order.issue,
+            status: newStatus,
+            };
+
+            // Faz a requisição PUT (ou a função que você já tem)
+            const updated = await updateServiceOrder(id, payload);
+
+            // Atualiza a lista local
+            setOrders(prev => prev.map(o => (o.id === updated.id ? updated : o)));
+        } catch (error) {
+            console.error('Erro ao atualizar status:', error);
+        } finally {
+            setUpdatingId(null);
+        }
+    };
+
     if (isLoading) return <p className="text-center mt-8">Carregando ordens de serviço...</p>;
     if (error) return <p className="text-red-500 text-center mt-8">{error}</p>;
 
@@ -66,7 +94,9 @@ export const DashboardPage = () => {
             orders.map((order) => (
                 <ServiceCard key={order.id} 
                 order={order} 
-                clientName={clientsMap.get(order.client_id)}/>
+                clientName={clientsMap.get(order.client_id)}
+                onStatusChange={handleStatusChange}
+                isUpdating={updatingId === order.id}/>
             ))
             )}
         </div>

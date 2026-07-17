@@ -14,3 +14,8 @@ export async function createServiceOrder(data: CreateServiceOrderData): Promise<
 export async function deleteServiceOrder(id: number): Promise<void> {
     await api.delete(`/service-orders/${id}`);
 }
+
+export async function updateServiceOrder(id: number, data: any) {
+  const response = await api.put<ServiceOrder>(`/service-orders/${id}`, data);
+  return response.data;
+}
