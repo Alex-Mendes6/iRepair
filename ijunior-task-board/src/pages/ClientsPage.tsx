@@ -141,19 +141,19 @@ export const ClientsPage = () => {
                         ))}
                     </ul>
                     <form action="" onSubmit={handleDelete} className="mt-4 p-4 border rounded">
-                        <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2">
                         <input 
                         type="number" 
-                        className="border p-2 rounded" 
+                        className="border p-2 rounded flex-1" 
                         name="delete-input" 
                         value={deleteId} 
                         onChange={(e) => setDeleteId(e.target.value)} 
-                        placeholder="Digite o ID para deleta-lo" required/>
+                        placeholder="Digite o ID para deletar cliente" required/>
                         <button 
                         type="submit" 
-                        className="bg-red-400 text-white p-2 rounded disabled:opacity-50 cursor-pointer" 
+                        className="bg-red-500 text-white p-2 rounded disabled:opacity-50 cursor-pointer" 
                         disabled={isDeleting}>
-                        {isDeleting ? 'Deletando...' : 'Deletar Cliente'}
+                        {isDeleting ? 'Deletando...' : 'Deletar'}
                         </button>
                         </div>
                     </form>
