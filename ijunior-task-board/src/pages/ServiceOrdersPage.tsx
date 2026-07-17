@@ -131,14 +131,24 @@ export const ServiceOrdersPage = () => {
             <form onSubmit={handleCreate} className="mt-4 p-4 border rounded">
                 <h3 className="font-bold mb-2">Nova OS</h3>
                 <div className="flex flex-col gap-2">
-                    <input
-                    type="number"
-                    placeholder="ID do cliente"
+                    <select
                     value={newServiceOrder.clientId ?? ''}
-                    onChange={(e) => {const value = e.target.value; setNewServiceOrder({ ...newServiceOrder, clientId: value === '' ? null : Number(value), })}}
+                    onChange={(e) =>
+                        setNewServiceOrder({
+                        ...newServiceOrder,
+                        clientId: e.target.value ? Number(e.target.value) : null,
+                        })
+                    }
                     required
                     className="border p-2 rounded"
-                    />
+                    >
+                    <option value="">Selecione um cliente</option>
+                    {clients.map((client) => (
+                        <option key={client.id} value={client.id}>
+                        {client.name} (ID: {client.id})
+                        </option>
+                    ))}
+                    </select>
                     <input
                     type="text"
                     placeholder="Aparelho"
