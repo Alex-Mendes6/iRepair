@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react"
 import type { ServiceOrder, CreateServiceOrderData, Client } from "../types"
-import { createServiceOrder, getAllServiceOrders } from "../services/serviceOrderService"
+import { createServiceOrder, getAllServiceOrders, deleteServiceOrder } from "../services/serviceOrderService"
 import { getAllClients } from "../services/clientService";
 import axios from "axios";
 
@@ -9,6 +9,9 @@ export const ServiceOrdersPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [refreshKey, setRefreshKey] = useState(0);
+    const [deleteId, setDeleteId] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [deleteError, setDeleteError] = useState<string | null>(null);
     const [isCreating, setIsCreating] = useState(false);
     const [createError, setCreateError] = useState<string | null>(null);
     const [newServiceOrder, setNewServiceOrder] = useState<CreateServiceOrderData>({
@@ -87,11 +90,44 @@ export const ServiceOrdersPage = () => {
         }
     }
 
+    const handleDelete = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setDeleteError(null);
+        setIsDeleting(true);
+
+        const id = Number(deleteId);
+        if (!id || id <= 0) {
+            setDeleteError('Digite um ID válido (número positivo).');
+            setIsDeleting(false);
+            return;
+        }
+
+        try {
+            await deleteServiceOrder(id);
+            setServiceOrders(prev => prev.filter(order => order.id !== id));
+            setDeleteId('');
+            setRefreshKey(prev => prev + 1);
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+            const status = error.response?.status;
+            if (status === 404) {
+                setDeleteError('Ordem de serviço não encontrada.');
+            } else {
+                setDeleteError('Erro ao deletar OS. Tente novamente.');
+            }
+            } else {
+            setDeleteError('Erro inesperado.');
+            }
+        } finally {
+            setIsDeleting(false);
+        }
+    };
+
     if (isLoading) return <p>Carregando...</p>
     if (error) return <p className="text-red-500">{error}</p>
 
     return (
-        <div className="bg-yellow-300">
+        <div>
             <form onSubmit={handleCreate} className="mt-4 p-4 border rounded">
                 <h3 className="font-bold mb-2">Nova OS</h3>
                 <div className="flex flex-col gap-2">
@@ -147,6 +183,27 @@ export const ServiceOrdersPage = () => {
                         ))}
                     </ul>
             </div>
+            <form onSubmit={handleDelete} className="mt-4 p-4 border rounded">
+                <h3 className="font-bold mb-2">Deletar OS</h3>
+                <div className="flex items-center gap-2">
+                    <input
+                    type="number"
+                    placeholder="ID da OS"
+                    value={deleteId}
+                    onChange={(e) => setDeleteId(e.target.value)}
+                    required
+                    className="border p-2 rounded flex-1"
+                    />
+                    <button
+                    type="submit"
+                    disabled={isDeleting}
+                    className="bg-red-500 text-white p-2 rounded disabled:opacity-50 cursor-pointer"
+                    >
+                    {isDeleting ? 'Deletando...' : 'Deletar'}
+                    </button>
+                </div>
+                {deleteError && <p className="text-red-500 text-sm mt-2">{deleteError}</p>}
+            </form>
         </div>
     )
 }

@@ -95,7 +95,7 @@ export const ClientsPage = () => {
     if (error) return <p className="text-red-500">{error}</p>
 
     return (
-        <div className="bg-green-300">
+        <div>
             <form onSubmit={handleCreate} className="mt-4 p-4 border rounded">
             <h3 className="font-bold mb-2">Novo Cliente</h3>
             <div className="flex flex-col gap-2">
@@ -132,31 +132,33 @@ export const ClientsPage = () => {
                 </button>
                 {createError && <p className="text-red-500 text-sm">{createError}</p>}
             </div>
-            </form >
-                <ul className="gap-1">
-                    <li>Clientes cadastrados:</li>
-                    {clients.map(Client => (
-                        <li key={Client.id}>{Client.name}: {Client.email} ({Client.phone})</li>
-                    ))}
-                </ul>
-                <form action="" onSubmit={handleDelete} className="mt-4 p-4 border rounded">
-                    <div className="flex flex-col gap-2">
-                    <input 
-                    type="number" 
-                    className="border p-2 rounded" 
-                    name="delete-input" 
-                    value={deleteId} 
-                    onChange={(e) => setDeleteId(e.target.value)} 
-                    placeholder="Digite o ID para deleta-lo" required/>
-                    <button 
-                    type="submit" 
-                    className="bg-red-400 text-white p-2 rounded disabled:opacity-50 cursor-pointer" 
-                    disabled={isDeleting}>
-                    {isDeleting ? 'Deletando...' : 'Deletar Cliente'}
-                    </button>
-                    </div>
-                </form>
-                {deleteError && <p className="text-red-500 text-sm mt-1">{deleteError}</p>}
+                </form >
+                <div className="p-2">
+                    <h2 className="font-bold mb-2">Clientes cadastrados</h2>
+                    <ul className="gap-1">
+                        {clients.map(Client => (
+                            <li key={Client.id}>{Client.name}: {Client.email} ({Client.phone})</li>
+                        ))}
+                    </ul>
+                    <form action="" onSubmit={handleDelete} className="mt-4 p-4 border rounded">
+                        <div className="flex flex-col gap-2">
+                        <input 
+                        type="number" 
+                        className="border p-2 rounded" 
+                        name="delete-input" 
+                        value={deleteId} 
+                        onChange={(e) => setDeleteId(e.target.value)} 
+                        placeholder="Digite o ID para deleta-lo" required/>
+                        <button 
+                        type="submit" 
+                        className="bg-red-400 text-white p-2 rounded disabled:opacity-50 cursor-pointer" 
+                        disabled={isDeleting}>
+                        {isDeleting ? 'Deletando...' : 'Deletar Cliente'}
+                        </button>
+                        </div>
+                    </form>
+                    {deleteError && <p className="text-red-500 text-sm mt-1">{deleteError}</p>}
+                </div>
         </div>
     )
 }
