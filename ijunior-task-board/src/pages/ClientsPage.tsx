@@ -19,7 +19,7 @@ export const ClientsPage = () => {
     const [isCreating, setIsCreating] = useState(false);
     const [createError, setCreateError] = useState<string | null>(null);
 
-    // funcao global para buscar os clientes
+    // funcao global para buscar os clientes na API
     const fetchClients = useCallback(async () => {
         try {
             setClients(await getAllClients());
@@ -30,10 +30,10 @@ export const ClientsPage = () => {
         }
     }, []);
 
-    // buscando todos os clientes na API
+    // buscando todos os clientes na API quando a pagina abrir
     useEffect(() => {
         fetchClients();
-    }, []) // [] = busca somente uma vez, quando a pagina abrir
+    }, [])
 
     // recarregar a busca na API apos deletar ou criar um Client
     useEffect(() => {
@@ -41,13 +41,13 @@ export const ClientsPage = () => {
     }, [refreshKey])
 
     // funcao para lidar com a funcionalidade deleteClient
-    const handleSubmitDelete = async (e: React.FormEvent) => {
+    const handleDelete = async (e: React.FormEvent) => {
         e.preventDefault();
         setDeleteError(null);
         setIsDeleting(true);
 
         const id: number = Number(deleteId);
-        if (id) {
+        if (id > 0) {
             try {
                 await deleteClient(id);
                 setRefreshKey(prev => prev + 1);
@@ -63,7 +63,10 @@ export const ClientsPage = () => {
                 setIsDeleting(false);
             }
             setDeleteId('');
-        } 
+        } else {
+            setDeleteError('O ID do cliente deve ser um número positivo.');
+            setIsDeleting(false);
+        }
     }
 
     // funcao que lida com a funcionalidade createClient
@@ -136,7 +139,7 @@ export const ClientsPage = () => {
                         <li key={Client.id}>{Client.name}: {Client.email} ({Client.phone})</li>
                     ))}
                 </ul>
-                <form action="" onSubmit={handleSubmitDelete} className="mt-4 p-4 border rounded">
+                <form action="" onSubmit={handleDelete} className="mt-4 p-4 border rounded">
                     <div className="flex flex-col gap-2">
                     <input 
                     type="number" 
