@@ -15,7 +15,7 @@ export const ServiceOrdersPage = () => {
     const [isCreating, setIsCreating] = useState(false);
     const [createError, setCreateError] = useState<string | null>(null);
     const [newServiceOrder, setNewServiceOrder] = useState<CreateServiceOrderData>({
-        clientId: null,
+        client_id: 0,
         device: '',
         issue: '',
         status: "open",
@@ -53,14 +53,14 @@ export const ServiceOrdersPage = () => {
         setCreateError(null);
 
         // veirficando se o id e valido (maior que 0)
-        if (newServiceOrder.clientId !== null && newServiceOrder.clientId <= 0) {
+        if (newServiceOrder.client_id <= 0) {
             setCreateError('ID do cliente deve ser um número positivo.');
             return;
         }
 
         // verificando se o id pertence a algum cliente
-        if (newServiceOrder.clientId !== null) {
-            const exists = clients.some(c => c.id === newServiceOrder.clientId);
+        if (newServiceOrder.client_id !== 0) {
+            const exists = clients.some(c => c.id === newServiceOrder.client_id);
                 if (!exists) {
                 setCreateError('Cliente não encontrado. Verifique o ID.');
                 return;
@@ -73,7 +73,7 @@ export const ServiceOrdersPage = () => {
             const createdServiceOrder = await createServiceOrder(newServiceOrder);
             setServiceOrders(prev => [...prev, createdServiceOrder]);
             setNewServiceOrder({
-                clientId: null,
+                client_id: 0,
                 device: '',
                 issue: '',
                 status: "open",
@@ -132,11 +132,11 @@ export const ServiceOrdersPage = () => {
                 <h3 className="font-bold mb-2">Nova OS</h3>
                 <div className="flex flex-col gap-2">
                     <select
-                    value={newServiceOrder.clientId ?? ''}
+                    value={newServiceOrder.client_id ?? ''}
                     onChange={(e) =>
                         setNewServiceOrder({
                         ...newServiceOrder,
-                        clientId: e.target.value ? Number(e.target.value) : null,
+                        client_id:Number(e.target.value),
                         })
                     }
                     required
@@ -182,7 +182,7 @@ export const ServiceOrdersPage = () => {
                             <li key={os.id} className="py-2 flex justify-between items-center">
                                 <span>
                                     <strong>{os.device}</strong> - {os.issue}
-                                    {os.clientId && <span className="text-sm text-gray-500 ml-2">(Cliente ID: {os.clientId})</span>}
+                                    {os.client_id && <span className="text-sm text-gray-500 ml-2">(Cliente ID: {os.client_id})</span>}
                                 </span>
                                 <span className={`text-xs px-2 py-1 rounded ${
                                     os.status === 'open' ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800'

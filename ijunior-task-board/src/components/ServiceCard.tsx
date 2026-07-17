@@ -1,20 +1,25 @@
+import type { ServiceOrder } from '../types';
+
 interface ServiceCardProps {
-    nomeCliente: string;
-    modeloAparelho: string;
-    defeito: string;
-    status: boolean;
-    mudaEstado: () => void;
+  order: ServiceOrder;
+  clientName?: string;
 }
 
-export function ServiceCard({ nomeCliente, modeloAparelho, defeito, status, mudaEstado}: ServiceCardProps) {
-    return (
-        <div className={`border-3 border-black p-4 rounded-lg shadow-md ${status ? 'bg-green-700' : 'bg-red-700'}`}>
-            <h2 className="font-serif font-bold text-xl text-white mt-2">{ modeloAparelho} </h2>
-            <p className="font-sans font-normal text-base text-gray-300">{ defeito }</p>
-            <h3 className="font-serif font-semibold text-lg text-blue-300 mt-2">{ nomeCliente }</h3>
-            <button className="border-2 rounded-md border-black w-25 text-black bg-gray-600 font-mono font-medium text-sm" onClick={mudaEstado}>
-                {status ? 'Finalizado' : 'Em aberto'}
-            </button>
-        </div>
-    )
-}
+export const ServiceCard = ({ order, clientName }: ServiceCardProps) => {
+  const statusColors: Record<string, string> = {
+    open: 'bg-yellow-200 text-yellow-800',
+    in_progress: 'bg-blue-200 text-blue-800',
+    done: 'bg-green-200 text-green-800',
+  };
+
+  return (
+    <div className="border rounded-lg shadow-md p-4 bg-white">
+      <h3 className="font-bold text-lg">{order.device}</h3>
+      <p className="text-gray-600">{order.issue}</p>
+        <p className="text-sm text-gray-500">Cliente: {clientName || `ID: ${order.client_id}`}</p>
+      <span className={`inline-block mt-2 px-2 py-1 rounded-full text-sm font-semibold ${statusColors[order.status]}`}>
+        {order.status}
+      </span>
+    </div>
+  );
+};
