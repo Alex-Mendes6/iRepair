@@ -1,20 +1,49 @@
+import type { ServiceOrder, ServiceOrderStatus } from '../types';
+
 interface ServiceCardProps {
-    nomeCliente: string;
-    modeloAparelho: string;
-    defeito: string;
-    status: boolean;
-    mudaEstado: () => void;
+    order: ServiceOrder;
+    clientName?: string;
+    onStatusChange: (id: number, newStatus: ServiceOrderStatus) => void;
+    isUpdating?: boolean;
 }
 
-export function ServiceCard({ nomeCliente, modeloAparelho, defeito, status, mudaEstado}: ServiceCardProps) {
+export const ServiceCard = ({ order, clientName, onStatusChange, isUpdating }: ServiceCardProps) => {
+    const statusColors: Record<string, string> = {
+        open: 'bg-yellow-200 text-yellow-800',
+        in_progress: 'bg-blue-200 text-blue-800',
+        done: 'bg-green-200 text-green-800',
+    };
+
+    const statusLabels = {
+        open: 'Aberta',
+        in_progress: 'Em andamento',
+        done: 'Concluída',
+    };
+
+    const statusOrder: ServiceOrderStatus[] = ['open', 'in_progress', 'done'];
+
+    const handleStatusClick = () => {
+        if (isUpdating) return;
+        const currentIndex = statusOrder.indexOf(order.status);
+        const nextIndex = (currentIndex + 1) % statusOrder.length;
+        const nextStatus = statusOrder[nextIndex];
+        onStatusChange(order.id, nextStatus);
+    };
+
     return (
-        <div className={`border-3 border-black p-4 rounded-lg shadow-md ${status ? 'bg-green-700' : 'bg-red-700'}`}>
-            <h2 className="font-serif font-bold text-xl text-white mt-2">{ modeloAparelho} </h2>
-            <p className="font-sans font-normal text-base text-gray-300">{ defeito }</p>
-            <h3 className="font-serif font-semibold text-lg text-blue-300 mt-2">{ nomeCliente }</h3>
-            <button className="border-2 rounded-md border-black w-25 text-black bg-gray-600 font-mono font-medium text-sm" onClick={mudaEstado}>
-                {status ? 'Finalizado' : 'Em aberto'}
-            </button>
+        <div className={`border rounded-lg shadow-md p-4 ${statusColors[order.status]}`}>
+        <h3 className="font-bold text-lg">{order.device}</h3>
+        <p className="text-gray-600">{order.issue}</p>
+            <p className="text-sm text-gray-500">Cliente: {clientName || `ID: ${order.client_id}`}</p>
+            <div className="mt-2">
+                <button
+                onClick={handleStatusClick}
+                disabled={isUpdating}
+                className={`px-3 py-1 rounded-full text-sm font-semibold cursor-pointer hover:opacity-80 transition ${statusColors[order.status]} border-2`}
+                >
+                {isUpdating ? 'Atualizando...' : statusLabels[order.status]}
+                </button>
+            </div>
         </div>
-    )
-}
+    );
+};
