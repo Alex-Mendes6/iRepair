@@ -11,3 +11,17 @@ generator client {
 datasource db {
   provider = "mysql"
 }
+
+model Task {
+  id        Int      @id @default(autoincrement())
+  title     String
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Usuario {
+  id           Int      @id@default(autoincrement())
+  email        String
+  senha        String
+  createdAt    DateTime @default(now())
+}
