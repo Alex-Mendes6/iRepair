@@ -71,7 +71,7 @@ export const ServiceOrdersPage = () => {
 
         try {
             const payload = {
-                clientId: newServiceOrder.client_id,
+                client_id: newServiceOrder.client_id,
                 device: newServiceOrder.device,
                 issue: newServiceOrder.issue,
                 status: newServiceOrder.status,
