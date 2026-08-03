@@ -24,4 +24,24 @@ export class AuthService {
 
         return usuario;
     }
+
+    async login(email: string, senha: string) {
+        const usuario = await prisma.Usuario.findunique({
+            where: { email },
+        });
+
+        if (!usuario) {
+            throw new AppError('Credenciais inválidas', 401);
+        }
+        
+        const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+
+        if (!senhaCorreta) {
+            throw new AppError('Credenciais inválidas', 401);
+        }
+
+        const token = generateToken({ id: usuario.id, email: usuario.email });
+
+        return { token, usuario: { id: usuario.id, email: usuario.email }};
+    }
 }
