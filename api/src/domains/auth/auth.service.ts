@@ -7,7 +7,7 @@ const SALT_ROUNDS = 10;
 
 export class AuthService {
     async register(email: string, senha: string) {
-        const usuarioExistente = await prisma.Usuario.findunique({
+        const usuarioExistente = await prisma.user.findUnique({
             where: { email },
         })
 
@@ -17,8 +17,8 @@ export class AuthService {
 
         const senhaHash = await bcrypt.hash(senha, SALT_ROUNDS);
 
-        const usuario = await prisma.Usuario.create({
-            data: { email, senha: senhaHash },
+        const usuario = await prisma.user.create({
+            data: { email, password: senhaHash },
             select: { id: true, email: true },
         })
 
@@ -26,7 +26,7 @@ export class AuthService {
     }
 
     async login(email: string, senha: string) {
-        const usuario = await prisma.Usuario.findunique({
+        const usuario = await prisma.user.findUnique({
             where: { email },
         });
 
@@ -34,7 +34,7 @@ export class AuthService {
             throw new AppError('Credenciais inválidas', 401);
         }
         
-        const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
+        const senhaCorreta = await bcrypt.compare(senha, usuario.password);
 
         if (!senhaCorreta) {
             throw new AppError('Credenciais inválidas', 401);

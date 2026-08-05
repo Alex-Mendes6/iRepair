@@ -19,9 +19,9 @@ model Task {
   createdAt DateTime @default(now())
 }
 
-model Usuario {
+model User {
   id           Int      @id@default(autoincrement())
-  email        String
-  senha        String
+  email        String   @unique
+  password     String
   createdAt    DateTime @default(now())
 }
