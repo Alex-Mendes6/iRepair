@@ -3,18 +3,18 @@ import { AppError } from "../../../utils/AppError";
 import type { Client } from "../models/Clients";
 export class ClientsService {
     async create(data: Client) {
-        const existe = await prisma.Client.findUnique({
+        const existe = await prisma.client.findUnique({
             where: { email: data.email }
         })
         if (existe) {
             throw new AppError('E-mail já cadastrado', 409);
         }
 
-        const cliente = await prisma.Client.create({
+        const cliente = await prisma.client.create({
             data: {
                 name: data.name,
-                email: data.email,
                 phone: data.phone,
+                email: data.email,
             }
         })
 
