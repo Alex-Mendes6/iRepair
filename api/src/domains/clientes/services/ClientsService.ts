@@ -26,4 +26,9 @@ export class ClientsService {
 
         return clients;
     }
+
+    async findById(id: number) {
+        const client = await prisma.client.findUnique({ where: { id } });
+        return client;
+    }
 }

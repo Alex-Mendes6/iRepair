@@ -5,6 +5,7 @@ const clienteRoutes = Router();
 const controller = new ClientsController();
 
 clienteRoutes.post('/', controller.create);
-clienteRoutes.get('/', controller.getAll)
+clienteRoutes.get('/', controller.getAll);
+clienteRoutes.get('/:id', controller.findById);
 
 export { clienteRoutes };
