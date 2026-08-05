@@ -27,4 +27,10 @@ export class ClientsController {
             return res.status(500).json({ error: 'Erro interno do servidor' });
         }
     }
+
+    async getAll(req: Request, res: Response) {
+        const service = new ClientsService();
+        const clients = await service.getAll();
+        return res.status(200).json(clients);
+    }
 }

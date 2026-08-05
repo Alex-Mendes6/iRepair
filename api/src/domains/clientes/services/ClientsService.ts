@@ -20,4 +20,10 @@ export class ClientsService {
 
         return cliente;
     }
+
+    async getAll() {
+        const clients = await prisma.client.findMany();
+
+        return clients;
+    }
 }
