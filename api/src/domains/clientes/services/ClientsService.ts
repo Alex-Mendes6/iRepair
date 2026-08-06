@@ -54,4 +54,12 @@ export class ClientsService {
         });
         return updatedClient;
     }
+
+    async delete(id: number) {
+        const client = await prisma.client.findUnique({ where: { id }});
+        if (!client) throw new AppError('Cliente não encontrado', 404);
+
+        await prisma.client.delete({ where: { id }});
+        return client;
+    }
 }

@@ -68,4 +68,20 @@ export class ClientsController {
             return res.status(500).json({ error: 'Erro interno do servidor' });
         }
     }
+
+    async delete(req: Request, res: Response) {
+        try {
+            const id = Number(req.params.id);
+
+            const service = new ClientsService();
+            await service.delete(id);
+            return res.status(204).send();
+        } catch (error) {
+            if(error instanceof AppError) {
+                return res.status(error.statusCode).json({ error: error.message });
+            }
+            console.error(error);
+            return res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+    }
 }
