@@ -32,4 +32,25 @@ export class SerivceOrdersController {
         const serviceOrders = await service.getAll();
         return res.status(200).json(serviceOrders);
     }
+
+    async findById(req: Request, res: Response) {
+        try {
+            const id = Number(req.params.id);
+            const service = new ServiceOrdersService();
+            const serviceOrder = await service.findById(id);
+            if (!serviceOrder) {
+                return res.status(404).json({ error: 'Ordem de serviço não encontrada' });
+            }
+            return res.status(200).json(serviceOrder);
+            if (!serviceOrder) {
+                return res.status(404).json({ error: 'Ordem de serviço não encontrada' });
+            }
+        } catch (error) {
+            if (error instanceof AppError) {
+                return res.status(error.statusCode).json({ error: error.message });
+            }
+            console.error(error);
+            return res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+    }
 }

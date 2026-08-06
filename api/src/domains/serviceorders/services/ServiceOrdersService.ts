@@ -23,4 +23,9 @@ export class ServiceOrdersService {
         const serviceOrders = await prisma.serviceOrder.findMany();
         return serviceOrders;
     }
+
+    async findById(id: number) {
+        const serviceOrder = await prisma.serviceOrder.findUnique({ where: { id }});
+        return serviceOrder;
+    }
 }

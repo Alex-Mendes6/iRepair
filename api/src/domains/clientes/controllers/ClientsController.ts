@@ -40,7 +40,7 @@ export class ClientsController {
             const service = new ClientsService();
             const client = await service.findById(id);
             if (!client) {
-                return res.status(404).json({ erro: 'Cliente não encontrado' });
+                return res.status(404).json({ error: 'Cliente não encontrado' });
             }
             return res.status(200).json(client);
         } catch (error) {
