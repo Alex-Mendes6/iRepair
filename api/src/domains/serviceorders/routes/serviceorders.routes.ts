@@ -4,4 +4,6 @@ import { SerivceOrdersController } from "../controllers/ServiceOrdersController"
 const serviceOrderRoutes = Router();
 const controller = new SerivceOrdersController();
 
+serviceOrderRoutes.post('/', controller.create);
+
 export { serviceOrderRoutes };

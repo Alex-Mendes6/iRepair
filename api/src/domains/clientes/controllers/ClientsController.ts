@@ -14,7 +14,7 @@ export class ClientsController {
         try {
             const { name, phone, email  } = req.body;
             if (!name || !email || !phone) {
-            return res.status(400).json({ error: 'Nome, e-mail e telefone são obrigatórios' });
+                return res.status(400).json({ error: 'Nome, e-mail e telefone são obrigatórios' });
             }
 
             const cliente = await this.service.create({ name, email, phone });

@@ -1,3 +1,29 @@
+import type { Request, Response } from "express";
+import { ServiceOrdersService } from "../services/ServiceOrdersService";
+import { AppError } from "../../../utils/AppError";
+
 export class SerivceOrdersController {
-    
+    async create(req: Request, res: Response) {
+        try {
+            const { client_id, device, issue } = req.body;
+            if (!client_id || typeof client_id !== 'number') {
+                return res.status(400).json({ error: 'client_id deve ser um número válido' });
+            }
+            if (!device || typeof device !== 'string') {
+                return res.status(400).json({ error: 'device é obrigatório' });
+            }
+            if (!issue || typeof issue !== 'string') {
+                return res.status(400).json({ error: 'issue é obrigatório' });
+            }
+            const service = new ServiceOrdersService();
+            const serviceOrder = await service.create({ client_id, device, issue });
+            return res.status(201).json(serviceOrder);
+        } catch (error) {
+            if (error instanceof AppError) {
+                return res.status(error.statusCode).json({ error: error.message });
+            }
+            console.error(error);
+            return res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+    }
 }
