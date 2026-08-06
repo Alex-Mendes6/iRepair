@@ -51,4 +51,21 @@ export class ClientsController {
             return res.status(500).json({ error: 'Erro interno do servidor' });
         }
     }
+
+    async update(req: Request, res: Response) {
+        try {
+            const id = Number(req.params.id);
+            const { name, phone } = req.body;
+
+            const service = new ClientsService();
+            const client = await service.update(id, name, phone);
+            return res.status(200).json(client);
+        } catch (error) {
+            if(error instanceof AppError) {
+                return res.status(error.statusCode).json({ error: error.message });
+            }
+            console.error(error);
+            return res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+    }
 }

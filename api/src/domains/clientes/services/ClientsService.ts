@@ -31,4 +31,27 @@ export class ClientsService {
         const client = await prisma.client.findUnique({ where: { id } });
         return client;
     }
+
+    async update(id: number, name?: string, phone?: string) {
+        if(name === undefined && phone === undefined) {
+            throw new AppError('Todos os campos vazios', 400);
+        }
+
+        const client = await prisma.client.findUnique({ 
+            where: { id }
+        });
+        if (!client) {
+            throw new AppError('Cliente não encontrado', 404);
+        }
+
+        const data: any = {};
+        if (name !== undefined) data.name = name;
+        if (phone !== undefined) data.phone = phone;
+
+        const updatedClient = await prisma.client.update({
+            where: { id },
+            data,
+        });
+        return updatedClient;
+    }
 }

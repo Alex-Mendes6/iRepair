@@ -7,5 +7,6 @@ const controller = new ClientsController();
 clienteRoutes.post('/', controller.create);
 clienteRoutes.get('/', controller.getAll);
 clienteRoutes.get('/:id', controller.findById);
+clienteRoutes.put('/:id', controller.update);
 
 export { clienteRoutes };
