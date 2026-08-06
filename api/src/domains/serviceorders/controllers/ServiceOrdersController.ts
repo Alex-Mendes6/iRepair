@@ -26,4 +26,10 @@ export class SerivceOrdersController {
             return res.status(500).json({ error: 'Erro interno do servidor' });
         }
     }
+
+    async getAll(req: Request, res: Response) {
+        const service = new ServiceOrdersService();
+        const serviceOrders = await service.getAll();
+        return res.status(200).json(serviceOrders);
+    }
 }

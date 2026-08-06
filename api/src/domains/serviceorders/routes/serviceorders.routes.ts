@@ -5,5 +5,6 @@ const serviceOrderRoutes = Router();
 const controller = new SerivceOrdersController();
 
 serviceOrderRoutes.post('/', controller.create);
+serviceOrderRoutes.get('/', controller.getAll);
 
 export { serviceOrderRoutes };

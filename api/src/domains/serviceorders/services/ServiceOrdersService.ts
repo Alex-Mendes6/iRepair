@@ -18,4 +18,9 @@ export class ServiceOrdersService {
 
         return serviceOrder;
     }
+
+    async getAll() {
+        const serviceOrders = await prisma.serviceOrder.findMany();
+        return serviceOrders;
+    }
 }
