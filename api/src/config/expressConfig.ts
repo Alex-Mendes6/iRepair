@@ -3,6 +3,7 @@ import { tarefaRoutes } from '../domains/tarefas/routes/tarefa.routes';
 import cookieParser from 'cookie-parser';
 import { authRoutes } from '../domains/auth/auth.routes';
 import { clienteRoutes } from '../domains/clientes/routes/clients.routes';
+import { serviceOrderRoutes } from '../domains/serviceorders/routes/serviceorders.routes';
 
 const app = express();
 app.use(express.json());
@@ -10,5 +11,6 @@ app.use(cookieParser());
 app.use('/tasks', tarefaRoutes);
 app.use('/auth', authRoutes);
 app.use('/clients', clienteRoutes);
+app.use('/serviceorders', serviceOrderRoutes);
 
 export { app };
