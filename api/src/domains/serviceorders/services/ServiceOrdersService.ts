@@ -28,4 +28,28 @@ export class ServiceOrdersService {
         const serviceOrder = await prisma.serviceOrder.findUnique({ where: { id }});
         return serviceOrder;
     }
+
+    async update(id: number, device?: string, issue?: string, status?: boolean) {
+        if (device === undefined && issue === undefined && status === undefined) {
+            throw new AppError('Todos os campos vazios', 400);
+        }
+
+        const serviceOrder = await prisma.serviceOrder.findUnique({
+            where: { id }
+        });
+        if (!serviceOrder) {
+            throw new AppError('Ordem de serviço não encontrada', 404);
+        }
+
+        const data: any = {};
+        if (device !== undefined) data.device = device;
+        if (issue !== undefined) data.issue = issue;
+        if (status !== undefined) data.status = status;
+
+        const updatedServiceOrder = await prisma.serviceOrder.update({
+            where: { id },
+            data,
+        });
+        return updatedServiceOrder;
+    }
 }

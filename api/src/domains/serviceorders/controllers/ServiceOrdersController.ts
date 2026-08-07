@@ -1,6 +1,7 @@
 import type { Request, Response } from "express";
 import { ServiceOrdersService } from "../services/ServiceOrdersService";
 import { AppError } from "../../../utils/AppError";
+import console from "node:console";
 
 export class SerivceOrdersController {
     async create(req: Request, res: Response) {
@@ -47,6 +48,23 @@ export class SerivceOrdersController {
             }
         } catch (error) {
             if (error instanceof AppError) {
+                return res.status(error.statusCode).json({ error: error.message });
+            }
+            console.error(error);
+            return res.status(500).json({ error: 'Erro interno do servidor' });
+        }
+    }
+
+    async update(req: Request, res: Response) {
+        try {
+            const id = Number(req.params.id);
+            const { device, issue, status } = req.body;
+
+            const service = new ServiceOrdersService();
+            const serviceOrder = await service.update(id, device, issue, status);
+            return res.status(200).json(serviceOrder);
+        } catch (error) {
+            if(error instanceof AppError) {
                 return res.status(error.statusCode).json({ error: error.message });
             }
             console.error(error);
