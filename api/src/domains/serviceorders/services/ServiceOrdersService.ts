@@ -52,4 +52,12 @@ export class ServiceOrdersService {
         });
         return updatedServiceOrder;
     }
+
+    async delete(id: number) {
+        const serviceOrder = await prisma.serviceOrder.findUnique({ where: { id }});
+        if (!serviceOrder) throw new AppError('Ordem de serviço não encontrada', 404);
+
+        await prisma.serviceOrder.delete({ where: { id }});
+        return serviceOrder;
+    }
 }
