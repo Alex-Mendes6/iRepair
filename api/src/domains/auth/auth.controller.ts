@@ -28,4 +28,8 @@ export class AuthController {
         res.clearCookie('token');
         return res.status(200).json({ message: 'Logout realizado com sucesso' });
     }
+
+    async me(req: Request, res: Response) {
+        return res.status(200).json({ usuario: req.user });
+    }
 }
