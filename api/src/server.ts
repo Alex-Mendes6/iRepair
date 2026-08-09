@@ -1,4 +1,4 @@
-// src/index.ts ← apenas sobe o servidor
+import 'dotenv/config'
 import { app } from './config/expressConfig';
 
 if (!process.env.JWT_SECRET) {
