@@ -1,11 +1,9 @@
-export type ServiceOrderStatus = 'open' | 'in_progress' | 'done';
-
 export interface ServiceOrder {
     id: number;
     client_id: number;
     device: string;
     issue: string;
-    status: ServiceOrderStatus;
+    status: boolean;
     created_at: string;
 }
 

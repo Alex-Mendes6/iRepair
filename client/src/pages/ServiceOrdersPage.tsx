@@ -18,7 +18,7 @@ export const ServiceOrdersPage = () => {
         client_id: 0,
         device: '',
         issue: '',
-        status: "open",
+        status: false,
     })
     const [clients, setClients] = useState<Client[]>([]);
 
@@ -82,7 +82,7 @@ export const ServiceOrdersPage = () => {
                 client_id: 0,
                 device: '',
                 issue: '',
-                status: "open",
+                status: false,
             });
             setRefreshKey(prev => prev + 1);
         } catch (error) {
@@ -192,9 +192,9 @@ export const ServiceOrdersPage = () => {
                                     {os.client_id && <span className="text-sm text-gray-500 ml-2">(Cliente ID: {os.client_id})</span>}
                                 </span>
                                 <span className={`text-xs px-2 py-1 rounded ${
-                                    os.status === 'open' ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800'
+                                    os.status === false ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800'
                                 }`}>
-                                    {os.status === 'open' ? 'Aberta' : 'Concluída'}
+                                    {os.status === false ? 'Aberta' : 'Concluída'}
                                 </span>
                             </li>
                         ))}
