@@ -16,6 +16,6 @@ app.use(cors({
 // Rotas
 app.use('/auth', authRoutes);
 app.use('/clients', clienteRoutes);
-app.use('/serviceorders', serviceOrderRoutes);
+app.use('/service-orders', serviceOrderRoutes);
 
 export { app };
