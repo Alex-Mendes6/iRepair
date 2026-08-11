@@ -23,6 +23,10 @@ export function AuthProvider({ children }: {children: ReactNode}) {
 
     // Recupera a sessao existente ao recarregar a pagina (quando o cookie ainda e valido)
     useEffect(() => {
+        if (window.location.pathname === '/login') {
+            setIsLoading(false);
+            return;
+        }
         api.get('/auth/me')
             .then(res => setUser(res.data.Usuario))
             .catch(() => setUser(null))
