@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getAllServiceOrders, updateServiceOrder } from '../services/serviceOrderService';
 import { getAllClients } from '../services/clientService';
 import { ServiceCard } from '../components/ServiceCard';
-import type { ServiceOrder, ServiceOrderStatus } from '../types';
+import type { ServiceOrder } from '../types';
 import axios from 'axios';
 
 export const DashboardPage = () => {
@@ -54,7 +54,7 @@ export const DashboardPage = () => {
         fetchData();
     }, []);
 
-    const handleStatusChange = async (id: number, newStatus: ServiceOrderStatus) => {
+    const handleStatusChange = async (id: number, newStatus: boolean) => {
         setUpdatingId(id);
         try {
             // Busca a OS atual

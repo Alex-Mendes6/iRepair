@@ -104,7 +104,7 @@ export const ServiceOrdersPage = () => {
 
         const id = Number(deleteId);
         if (!id || id <= 0) {
-            setDeleteError('Digite um ID válido (número positivo).');
+            setDeleteError('O ID da OS deve ser um número positivo.');
             setIsDeleting(false);
             return;
         }
@@ -189,7 +189,8 @@ export const ServiceOrdersPage = () => {
                             <li key={os.id} className="py-2 flex justify-between items-center">
                                 <span>
                                     <strong>{os.device}</strong> - {os.issue}
-                                    {os.client_id && <span className="text-sm text-gray-500 ml-2">(Cliente ID: {os.client_id})</span>}
+                                    {os.id && <span className="text-sm text-gray-500 ml-2">(ID da OS: {os.id})</span>}
+                                    {os.client_id && <span className="text-sm text-gray-500 ml-2">(ID do Cliente: {os.client_id})</span>}
                                 </span>
                                 <span className={`text-xs px-2 py-1 rounded ${
                                     os.status === false ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800'

@@ -134,12 +134,23 @@ export const ClientsPage = () => {
             </div>
                 </form >
                 <div className="p-2">
-                    <h2 className="font-bold mb-2">Clientes cadastrados</h2>
-                    <ul className="gap-1">
-                        {clients.map(Client => (
-                            <li key={Client.id}>{Client.name}: {Client.email} ({Client.phone})</li>
-                        ))}
-                    </ul>
+                    <div className="p-2">
+                        <h2 className="text-xl font-semibold mb-2">Clientes cadastrados</h2>
+                        <ul className="divide-y divide-gray-200">
+                            {clients.map((client) => (
+                                <li key={client.id} className="py-2 flex justify-between items-center">
+                                    <span>
+                                        <strong>{client.name}</strong>
+                                        <span className="text-sm text-gray-500 ml-2">({client.email})</span>
+                                    </span>
+                                    <span className="text-sm text-gray-500">
+                                        Telefone: {client.phone}
+                                        <span className="ml-2 text-xs text-gray-400">(ID: {client.id})</span>
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                     <form action="" onSubmit={handleDelete} className="mt-4 p-4 border rounded">
                         <div className="flex items-center gap-2">
                         <input 
