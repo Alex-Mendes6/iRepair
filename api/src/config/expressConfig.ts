@@ -1,5 +1,4 @@
 import express from 'express';
-import { tarefaRoutes } from '../domains/tarefas/routes/tarefa.routes';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { authRoutes } from '../domains/auth/auth.routes';
@@ -15,7 +14,6 @@ app.use(cors({
 }));
 
 // Rotas
-app.use('/tasks', tarefaRoutes);
 app.use('/auth', authRoutes);
 app.use('/clients', clienteRoutes);
 app.use('/serviceorders', serviceOrderRoutes);
