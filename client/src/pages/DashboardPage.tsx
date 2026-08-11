@@ -4,6 +4,7 @@ import { getAllClients } from '../services/clientService';
 import { ServiceCard } from '../components/ServiceCard';
 import type { ServiceOrder } from '../types';
 import axios from 'axios';
+import { useAuth } from '../contexts/AuthContext';
 
 export const DashboardPage = () => {
     const [orders, setOrders] = useState<ServiceOrder[]>([]);
@@ -81,25 +82,42 @@ export const DashboardPage = () => {
         }
     };
 
+    const { logout } = useAuth();
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+        } catch (error) {
+            console.error('Erro ao fazer logout:', error);
+        }
+    }
+
     if (isLoading) return <p className="text-center mt-8">Carregando ordens de serviço...</p>;
     if (error) return <p className="text-red-500 text-center mt-8">{error}</p>;
 
     return (
         <div className="p-4 max-w-7xl mx-auto">
-        <h1 className="text-2xl font-bold mb-4">Dashboard de Ordens de Serviço</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {orders.length === 0 ? (
-            <p className="col-span-full text-gray-500">Nenhuma OS encontrada.</p>
-            ) : (
-            orders.map((order) => (
-                <ServiceCard key={order.id} 
-                order={order} 
-                clientName={clientsMap.get(order.client_id)}
-                onStatusChange={handleStatusChange}
-                isUpdating={updatingId === order.id}/>
-            ))
-            )}
-        </div>
+            <h1 className="text-2xl font-bold mb-4">Dashboard de Ordens de Serviço</h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {orders.length === 0 ? (
+                <p className="col-span-full text-gray-500">Nenhuma OS encontrada.</p>
+                ) : (
+                orders.map((order) => (
+                    <ServiceCard key={order.id} 
+                    order={order} 
+                    clientName={clientsMap.get(order.client_id)}
+                    onStatusChange={handleStatusChange}
+                    isUpdating={updatingId === order.id}/>
+                ))
+                )}
+            </div>
+            <div className="mt-6">
+                <button 
+                    onClick={handleLogout}
+                    className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition ">
+                        Sair / Logout
+                </button>
+            </div>
         </div>
     );
 };
