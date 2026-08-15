@@ -41,10 +41,6 @@ export const ServiceOrdersPage = () => {
     // chamando fetchServiceOrderes quando a pagina abrir
     useEffect(() => {
         fetchServiceOrders();
-    }, [])
-
-    useEffect(() => {
-        fetchServiceOrders();
     }, [refreshKey]);
 
     // criacao de uma nova OS
