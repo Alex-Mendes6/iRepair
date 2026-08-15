@@ -7,15 +7,15 @@
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "target": "ES2023",
+    "module": "CommonJS",
+    // "moduleResolution": "node10",
+    "target": "ES2020",
     "esModuleInterop": true,
     "ignoreDeprecations": "6.0",
     // "types": ["node", "express"],
     // For nodejs:
     // "lib": ["esnext"],
-    // "types": ["node"],
+    "types": ["node"],
     // and npm install -D @types/node
 
     // Other Outputs
