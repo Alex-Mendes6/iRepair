@@ -30,19 +30,17 @@ export const ServiceOrdersPage = () => {
     // buscando as ordens de servico na API
     const fetchServiceOrders = useCallback(async () => {
         try {
-            setServiceOrders(await getAllServiceOrders());
+            const data = await getAllServiceOrders();
+            setServiceOrders(Array.isArray(data) ? data : []);
         } catch (e) {
             setError('Não foi possível carregar as Ordens de Servico ');
+            setServiceOrders([]);
         } finally {
             setIsLoading(false);
         }
     }, [])
     
     // chamando fetchServiceOrderes quando a pagina abrir
-    useEffect(() => {
-        fetchServiceOrders();
-    }, [])
-
     useEffect(() => {
         fetchServiceOrders();
     }, [refreshKey]);

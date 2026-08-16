@@ -31,6 +31,7 @@ export class SerivceOrdersController {
     async getAll(req: Request, res: Response) {
         const service = new ServiceOrdersService();
         const serviceOrders = await service.getAll();
+        console.log('ServiceOrders retornado:', serviceOrders);
         return res.status(200).json(serviceOrders);
     }
 
